@@ -1,4 +1,4 @@
-JPMML-Pig
+JPMML-Pig [![Build Status](https://travis-ci.org/jpmml/jpmml-pig.png?branch=master)](https://travis-ci.org/jpmml/jpmml-pig)
 =========
 
 PMML evaluator library for the Apache Pig platform (http://pig.apache.org/).
