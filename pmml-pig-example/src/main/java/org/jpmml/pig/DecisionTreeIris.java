@@ -18,8 +18,21 @@
  */
 package org.jpmml.pig;
 
-import org.apache.pig.EvalFunc;
+import java.io.IOException;
 
-abstract
-public class DecisionTreeIris<V> extends EvalFunc<V> {
+import org.apache.pig.EvalFunc;
+import org.apache.pig.data.Tuple;
+import org.apache.pig.impl.logicalLayer.schema.Schema;
+
+public class DecisionTreeIris extends EvalFunc<Tuple> {
+
+	@Override
+	public Tuple exec(Tuple tuple) throws IOException {
+		return PMMLUtil.evaluateComplex(DecisionTreeIris.class, tuple);
+	}
+
+	@Override
+	public Schema outputSchema(Schema input){
+		return PMMLUtil.getResultType(DecisionTreeIris.class);
+	}
 }

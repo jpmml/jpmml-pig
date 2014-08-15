@@ -22,7 +22,7 @@ The main responsibility of a model launcher class is to formalize the "public in
 
 All in all, a typical model launcher class can be implemented in 5 to 10 lines of boilerplate-esque Java source code.
 
-The example model JAR file contains a DecisionTree model for the "iris" dataset. This model is exposed in two ways. First, the model launcher class `org.jpmml.pig.DecisionTreeIrisSimple` defines a custom function that returns the PMML target field ("Species") as a string. Second, the model launcher class `org.jpmml.pig.DecisionTreeIrisComplex` defines a custom function that returns the PMML target field ("Species") together with four output fields ("Predicted_Species", "Probability_setosa", "Probability_versicolor", "Probability_virginica") as a tuple.
+The example model JAR file contains a DecisionTree model for the "iris" dataset. This model is exposed in two ways. First, the model launcher class `org.jpmml.pig.DecisionTreeIris` defines a custom function that returns the PMML target field ("Species") together with four output fields ("Predicted_Species", "Probability_setosa", "Probability_versicolor", "Probability_virginica") as a tuple. Second, the model launcher class `org.jpmml.pig.DecisionTreeIris_Species` defines a custom function that returns the PMML target field ("Species") as a string.
 
 # Installation #
 
@@ -63,18 +63,11 @@ data = LOAD '/tmp/iris.csv' USING PigStorage(',')
 	AS (Sepal_Length:double, Sepal_Width:double, Petal_Length:double, Petal_Width:double);
 ```
 
-Evaluating this data set using the simple UDF:
+Evaluating this data set using an UDF:
 ```
-simple_result = FOREACH data GENERATE org.jpmml.pig.DecisionTreeIrisSimple(Sepal_Length, Sepal_Width, Petal_Length, Petal_Width);
-DESCRIBE simple_result;
-DUMP simple_result;
-```
-
-Evaluating this data set using the complex UDF:
-```
-complex_result = FOREACH data GENERATE org.jpmml.pig.DecisionTreeIrisComplex(Sepal_Length, Sepal_Width, Petal_Length, Petal_Width);
-DESCRIBE complex_result;
-DUMP complex_result;
+result = FOREACH data GENERATE org.jpmml.pig.DecisionTreeIris(Sepal_Length, Sepal_Width, Petal_Length, Petal_Width);
+DESCRIBE result;
+DUMP result;
 ```
 
 # License #
