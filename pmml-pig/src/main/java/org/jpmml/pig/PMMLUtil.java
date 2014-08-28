@@ -37,6 +37,8 @@ import org.dmg.pmml.OutputField;
 import org.jpmml.evaluator.Evaluator;
 import org.jpmml.evaluator.EvaluatorUtil;
 import org.jpmml.evaluator.FieldValue;
+import org.jpmml.evaluator.ModelEvaluator;
+import org.jpmml.evaluator.OutputUtil;
 import org.jpmml.runtime.ModelEvaluatorCache;
 
 public class PMMLUtil {
@@ -94,14 +96,18 @@ public class PMMLUtil {
 		for(FieldName targetField : targetFields){
 			DataField field = evaluator.getDataField(targetField);
 
-			tuple.add(new FieldSchema(targetField.getValue(), getDataType(field.getDataType())));
+			org.dmg.pmml.DataType dataType = field.getDataType();
+
+			tuple.add(new FieldSchema(targetField.getValue(), getDataType(dataType)));
 		}
 
 		List<FieldName> outputFields = evaluator.getOutputFields();
 		for(FieldName outputField : outputFields){
 			OutputField field = evaluator.getOutputField(outputField);
 
-			tuple.add(new FieldSchema(outputField.getValue(), getDataType(field.getDataType())));
+			org.dmg.pmml.DataType dataType = OutputUtil.getDataType(field, (ModelEvaluator<?>)evaluator);
+
+			tuple.add(new FieldSchema(outputField.getValue(), getDataType(dataType)));
 		}
 
 		Schema result = new Schema();
